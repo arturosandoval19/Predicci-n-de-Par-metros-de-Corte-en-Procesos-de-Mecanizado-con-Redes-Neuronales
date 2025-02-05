@@ -1,90 +1,118 @@
-Informe: Predicción de Parámetros de Corte Basada en Rugosidad
+Informe Detallado 🌟
 
-Introducción
+Introducción 📚
 
-Este proyecto tiene como objetivo predecir parámetros de corte —velocidad de corte (Vc), profundidad de corte (t) y avance de corte (f)— a partir de la rugosidad aparente (Ra) utilizando un enfoque basado en redes neuronales. El sistema procesa datos de un archivo CSV, los prepara para entrenamiento, construye modelos predictivos y permite realizar predicciones con posibilidad de guardar los resultados.
+En este proyecto se desarrolló un sistema basado en Python que emplea técnicas de aprendizaje automático y redes neuronales para predecir parámetros de corte en función de la rugosidad superficial (Ra). La implementación incluye:
 
-Desarrollo
+Preprocesamiento de datos.
 
-1. Carga de Datos
+Entrenamiento de modelos de redes neuronales.
 
-Se implementó una función llamada cargar_datos para leer un archivo CSV con diferentes delimitadores (",", ";", "\t", y espacios) con el objetivo de maximizar la compatibilidad con diversos formatos. La función realiza las siguientes tareas:
+Predicción y almacenamiento de resultados.
 
-Detecta y asigna columnas necesarias: Vc, t, f, y Ra.
+Objetivo 🎯
 
-Renombra columnas automáticamente en caso de discrepancias.
+El principal objetivo fue diseñar una solución automatizada para predecir los parámetros de corte (Vc, t, f) a partir de la rugosidad (Ra) de una muestra, optimizando la precisión de las predicciones y garantizando una interfaz amigable.
 
-Convierte datos a formato numérico, eliminando filas con valores faltantes.
+Desarrollo del Sistema ⚙️
 
-2. Búsqueda de Coincidencias Exactas
+1. Carga de Datos 📥
 
-Se diseñó la función buscar_coincidencia_exacta, que permite identificar registros existentes en el archivo cuya rugosidad (Ra) coincida con un valor dado dentro de un margen de tolerancia. Esto optimiza el uso de datos existentes sin necesidad de realizar predicciones adicionales.
+Se creó la función cargar_datos, que permite:
 
-3. Preparación de Datos para Entrenamiento
+Leer archivos CSV con múltiples intentos de delimitadores (\t, ;, ,,  ).
 
-La función preparar_datos divide el conjunto de datos en subconjuntos de entrenamiento y prueba, separando las características (Ra) de los objetivos (Vc, t, f). Además, escala las características para mejorar el rendimiento del modelo utilizando StandardScaler.
+Verificar y mapear columnas requeridas: Vc, t, f, Ra.
 
-4. Creación y Entrenamiento de Modelos de Redes Neuronales
+Eliminar valores no numéricos o faltantes para garantizar datos limpios.
 
-Se definió la arquitectura de una red neuronal en la función crear_modelo_keras. Cada modelo tiene:
+2. Preparación de Datos 🧪
 
-Tres capas ocultas (128, 64 y 32 neuronas) con activación ReLU.
+Mediante preparar_datos, los datos se dividieron en conjuntos de entrenamiento y prueba:
 
-Una capa de salida para predecir un objetivo específico.
+Uso de train_test_split para separar datos.
 
-Los modelos predictivos para Vc, t, y f se entrenaron simultáneamente mediante la función entrenar_modelos_keras, que utiliza EarlyStopping para prevenir el sobreajuste. Cada modelo fue evaluado en el conjunto de prueba para garantizar su rendimiento.
+Escalado de características usando StandardScaler.
 
-5. Predicción de Valores
+3. Creación y Entrenamiento de Modelos 🤖
 
-La función predecir_valores calcula los parámetros de corte:
+Se implementaron redes neuronales mediante TensorFlow:
 
-Busca coincidencias exactas en los datos existentes.
+Arquitectura:
 
-En caso de no encontrarlas, utiliza los modelos entrenados para predecir los valores a partir de la rugosidad escalada.
+Capa de entrada: 1 neurona.
 
-Los resultados se redondean para cumplir con especificaciones de formato.
+Capas ocultas: 128, 64 y 32 neuronas con activación ReLU.
 
-6. Almacenamiento de Resultados
+Capa de salida: 1 neurona.
 
-La función guardar_datos verifica si los valores predichos ya existen en el archivo antes de agregarlos. Si no hay duplicados, los datos se almacenan en formato CSV para facilitar su reutilización.
+Optimizador: Adam.
 
-7. Interfaz Principal
+Función de pérdida: MSE.
 
-El programa principal (él éxito se controla desde main) realiza las siguientes acciones:
+Early Stopping para evitar sobreajuste.
 
-Carga los datos iniciales.
+4. Predicción de Valores 🔮
 
-Entrena los modelos de redes neuronales.
+La función predecir_valores permite:
 
-Solicita al usuario ingresar un valor de rugosidad (Ra).
+Buscar coincidencias exactas en los datos existentes.
 
-Predice los parámetros de corte y pregunta si desea guardarlos.
+Predecir valores usando modelos entrenados.
 
-Permite realizar predicciones adicionales o finalizar el programa.
+Redondear los resultados para mayor claridad.
 
-Resultados
+5. Almacenamiento de Resultados 💾
 
-Se logró una carga eficiente de datos desde archivos CSV con diferentes configuraciones.
+Se diseñó guardar_datos para almacenar valores predichos en un archivo CSV, verificando duplicados antes de añadir nuevas filas.
 
-Los modelos de redes neuronales mostraron un buen rendimiento, con errores mínimos en el conjunto de prueba.
+Resultados Obtenidos 📊
 
-El sistema predijo de manera precisa los parámetros de corte basándose en la rugosidad ingresada por el usuario.
+Precisión de los Modelos:
 
-Los datos generados se almacenaron con éxito, evitando duplicados.
+Modelo Vc: pérdida mínima en validación.
 
-Conclusiones
+Modelo t: pérdida mínima en validación.
 
-El sistema desarrollado demuestra ser una herramienta robusta y flexible para predecir parámetros de corte en base a rugosidad aparente. Las siguientes mejoras podrían optimizar aún más su funcionalidad:
+Modelo f: pérdida mínima en validación.
 
-Incorporar visualizaciones gráficas de las predicciones y los datos.
+Ejemplo de Predicción:
 
-Implementar una interfaz gráfica para facilitar su uso.
+Entrada (Ra): 2.500 µm.
 
-Explorar arquitecturas de redes neuronales más avanzadas para mejorar la precisión.
+Salida:
 
+Vc: 300.00 m/min.
+
+t: 0.250 mm.
+
+f: 0.200 mm/rev.
+
+Conclusiones ✅
+
+El sistema automatizado garantiza precisión y flexibilidad en la predicción de parámetros de corte.
+
+La implementación modular facilita futuras mejoras y adaptaciones.
+
+La interfaz basada en consola es intuitiva para usuarios con conocimientos básicos de Python.
+
+Recomendaciones 🚀
+
+Integrar una interfaz gráfica (GUI) para mejorar la experiencia del usuario.
+
+Ampliar el conjunto de datos para entrenar modelos más robustos.
+
+Implementar soporte para más formatos de archivo.
+
+Agradecimientos 🙌
+
+Gracias a las bibliotecas Pandas, NumPy, TensorFlow y Scikit-learn por simplificar la implementación de este proyecto.
 
 ![image](https://github.com/user-attachments/assets/6fcde41e-1f8f-49d6-8eba-cfec99180110)
 ![image](https://github.com/user-attachments/assets/e4928543-f13c-4f82-8d06-563c01eccbdd)
 ![image](https://github.com/user-attachments/assets/29609929-167b-4e42-abd4-663115f6b894)
+
+📝 Contactos Whatsapp: (+51 928221439) https://wa.link/237bkx Correo: tecnologiasandoval2023@gmail.com Github @arturosandoval19 ·
+Youtube:https://www.youtube.com/@tecnolog%C3%ADaSandoval Facebook: https://www.facebook.com/tecnologiasandoval1 TikTok: www.tiktok.com/@tecnologiasandoval
 
 
